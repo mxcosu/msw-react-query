@@ -1,24 +1,18 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { customReactQuery } from './customHook';
 
 function App() {
+  const { isLoading, error, data } = customReactQuery();
+
+  if (isLoading) return 'Loading...';
+
+  if (error) return 'An error has occurred: ' + error.message;
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='App'>
+      <h1>Name: {data.name}</h1>
+      <p>{data.description}</p>
     </div>
   );
 }
