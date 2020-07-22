@@ -14,7 +14,8 @@ const server = setupServer(
     async (req, res, ctx) => {
       return res(
         ctx.json({
-          data: { name: 'Hello', description: 'Text' },
+           name: 'Hello', 
+           description: 'Text',
         })
       );
     }
@@ -27,7 +28,10 @@ afterAll(() => server.close());
 
 test('renders mock data "Hello"', async () => {
   render(<App />);
-  //react query stuck in isLoading (how do we move to isSuccess?)
-  screen.debug(); // get stuck in "Loading..." face
-  expect(await screen.findByText('Hello')); // never finds this text
+
+  //loading gets immediately added
+  expect(screen.getByText(/loading/i));
+
+  // need to await for a bit to let the mock resolve to the data
+  expect(await screen.findByText(/Hello/i));
 });
